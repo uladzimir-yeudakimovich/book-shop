@@ -5,7 +5,12 @@
     "extensions": [".js", ".ts", "html"]
   },
 
+  "scss.validate": false,
+  "css.validate": false,
+  "less.validate": false,
+
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true,
   }
 }
