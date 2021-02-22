@@ -8,7 +8,7 @@
                 <p>Description: {{ book.description }}</p>
                 <p>Price: {{ book.price }}</p>
                 <div *ngIf="book.isAvailable">
-                    <button (click)="buyBook()">Buy</button>
+                    <button (click)="buyBook(book)">Buy</button>
                 </div>
             </div>
         </div>

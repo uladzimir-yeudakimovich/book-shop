@@ -7,7 +7,7 @@
                 <p>Price: {{ book.price }}</p>
                 <p>Count: {{ book.count }}</p>
                 <div *ngIf="book.count">
-                    <button (click)="deleteBook()">Delete</button>
+                    <button (click)="deleteBook(book.id)">Delete</button>
                 </div>
             </div>
         </div>

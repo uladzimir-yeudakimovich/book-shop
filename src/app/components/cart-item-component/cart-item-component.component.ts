@@ -26,5 +26,7 @@ export class CartItemComponentComponent implements OnInit, OnDestroy {
     this.dataSubscription.unsubscribe();
   }
 
-  deleteBook() {}
+  deleteBook(id: string) {
+    this.basketService.deleteBook(id);
+  }
 }
