@@ -1,4 +1,5 @@
-h2, h3 {
+h2,
+h3 {
   text-align: center;
 }
 
@@ -6,8 +7,10 @@ h2, h3 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+
   .books_list {
     margin: 0 15px;
+
     .book_card {
       display: flex;
       flex-direction: column;
