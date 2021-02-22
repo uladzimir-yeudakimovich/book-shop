@@ -1,0 +1,24 @@
+h2, h3 {
+  text-align: center;
+}
+
+.books_wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  .books_list {
+    margin: 0 15px;
+    .book_card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      width: 300px;
+      height: 210px;
+      margin: 15px auto;
+      padding: 15px;
+      text-align: justify;
+      border: 1px solid;
+    }
+  }
+}
