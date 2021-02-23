@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { IBasket } from '../models/BasketModel';
 
@@ -7,6 +7,8 @@ import { IBasket } from '../models/BasketModel';
   providedIn: 'root',
 })
 export class BasketService {
+  headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
   constructor(private http: HttpClient) {}
 
   getBasket() {
@@ -15,12 +17,11 @@ export class BasketService {
     );
   }
 
-  addBook(book: IBasket) {
-    const count = 1;
-    console.log('buy: ', { ...book, count });
-  }
-
-  deleteBook(id: string) {
-    console.log('delete: ', id);
+  setBasket(books: IBasket[]) {
+    return this.http.put(
+      'https://book-shop-41c29-default-rtdb.europe-west1.firebasedatabase.app/basket.json',
+      books,
+      { headers: this.headers },
+    );
   }
 }

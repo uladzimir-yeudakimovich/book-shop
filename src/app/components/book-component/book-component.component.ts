@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { BooksService } from '../../services/books.service';
-import { BasketService } from '../../services/basket.service';
 import { IBook } from '../../models/BookModel';
 
 @Component({
@@ -11,11 +10,13 @@ import { IBook } from '../../models/BookModel';
   styleUrls: ['./book-component.component.scss'],
 })
 export class BookComponentComponent implements OnInit, OnDestroy {
+  @Output() add = new EventEmitter<IBook>();
+
   books: IBook[] = [];
 
   private dataSubscription: Subscription = new Subscription();
 
-  constructor(private booksService: BooksService, private basketService: BasketService) {}
+  constructor(private booksService: BooksService) {}
 
   ngOnInit(): void {
     this.dataSubscription = this.booksService.getBooks().subscribe((res: any): void => {
@@ -25,10 +26,5 @@ export class BookComponentComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.dataSubscription.unsubscribe();
-  }
-
-  buyBook(book: IBook) {
-    const { id, name, price } = book;
-    this.basketService.addBook({ id, name, price });
   }
 }
