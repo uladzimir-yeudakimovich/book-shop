@@ -13,7 +13,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "ng lint && ng lint-scss && ng test && ng pretty-quick"
+      "pre-commit": "npm run lint-scss && npm run pretty-quick"
     }
   },
   "private": true,
