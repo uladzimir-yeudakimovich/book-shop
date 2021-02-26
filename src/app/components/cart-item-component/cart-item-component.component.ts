@@ -11,4 +11,8 @@ export class CartItemComponentComponent {
   @Input() books: IBasket[] = [];
 
   @Output() delete = new EventEmitter<string>();
+
+  @Output() increase = new EventEmitter<string>();
+
+  @Output() decrease = new EventEmitter<string>();
 }

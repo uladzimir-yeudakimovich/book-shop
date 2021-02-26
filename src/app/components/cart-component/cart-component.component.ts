@@ -32,19 +32,39 @@ export class CartComponentComponent implements OnInit, OnDestroy {
 
   addBook(book: IBook): void {
     const { id, name, price } = book;
-    let count = 1;
     const isInBasket = this.books.find((el: IBasket) => el.id === id);
     if (isInBasket) {
-      count += isInBasket.count;
-      this.books = this.books.map((el: IBasket) => (el.id === id ? { ...el, count } : el));
+      this.increaseBook(id);
     } else {
-      this.books.push({ id, name, price, count });
+      this.books.push({ id, name, price, count: 1 });
+      this.updateDataSubscription = this.basketService.setBasket(this.books).subscribe();
     }
-    this.updateDataSubscription = this.basketService.setBasket(this.books).subscribe();
   }
 
   deleteBook(id: string): void {
     this.books = this.books.filter((el: IBasket) => el.id !== id);
     this.updateDataSubscription = this.basketService.setBasket(this.books).subscribe();
+  }
+
+  increaseBook(id: string): void {
+    const book = this.books.find((el: IBasket) => el.id === id);
+    if (book) {
+      const count = book.count + 1;
+      this.books = this.books.map((el: IBasket) => (el.id === id ? { ...el, count } : el));
+      this.updateDataSubscription = this.basketService.setBasket(this.books).subscribe();
+    }
+  }
+
+  decreaseBook(id: string): void {
+    const book = this.books.find((el: IBasket) => el.id === id);
+    if (book) {
+      if (book.count > 1) {
+        const count = book.count - 1;
+        this.books = this.books.map((el: IBasket) => (el.id === id ? { ...el, count } : el));
+        this.updateDataSubscription = this.basketService.setBasket(this.books).subscribe();
+      } else {
+        this.deleteBook(id);
+      }
+    }
   }
 }
