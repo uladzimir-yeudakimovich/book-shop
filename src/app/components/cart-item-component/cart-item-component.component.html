@@ -1,0 +1,17 @@
+<div>
+  <h2>Basket</h2>
+  <div *ngIf="books.length" class="books_wrapper">
+    <div *ngFor="let book of books" class="books_list">
+      <div class="book_card">
+        <h3>Name: {{ book.name }}</h3>
+        <p>Total cost: {{ book.price * book.count }}</p>
+        <p>Count: {{ book.count }}</p>
+        <div *ngIf="book.count">
+          <button (click)="increase.emit(book.id)">Increase</button>
+          <button (click)="decrease.emit(book.id)">Decrease</button>
+          <button (click)="delete.emit(book.id)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

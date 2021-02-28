@@ -1,0 +1,17 @@
+<div>
+  <h2>Books</h2>
+  <div *ngIf="books.length" class="books_wrapper">
+    <div *ngFor="let book of books" class="books_list">
+      <div class="book_card">
+        <h3>Name: {{ book.name }}</h3>
+        <p>Category: {{ book.category }}</p>
+        <p>Date: {{ book.createDate | date }}</p>
+        <p>Description: {{ book.description }}</p>
+        <p>Price: {{ book.price }}</p>
+        <div *ngIf="book.isAvailable">
+          <button (click)="add.emit(book)">Buy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+<app-cart-item-component
+    [books]="books"
+    (delete)="deleteBook($event)"
+    (increase)="increaseBook($event)"
+    (decrease)="decreaseBook($event)"></app-cart-item-component>
+<app-book-component (add)="addBook($event)"></app-book-component>
