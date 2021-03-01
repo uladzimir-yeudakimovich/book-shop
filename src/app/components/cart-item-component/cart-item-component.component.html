@@ -1,7 +1,7 @@
 <div>
   <h2>Basket</h2>
   <div *ngIf="books.length" class="books_wrapper">
-    <div *ngFor="let book of books" class="books_list">
+    <div *ngFor="let book of books; index as i; trackBy: checkCount" class="books_list">
       <div class="book_card">
         <h3>Name: {{ book.name }}</h3>
         <p>Total cost: {{ book.price * book.count }}</p>
