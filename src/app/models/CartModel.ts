@@ -1,4 +1,4 @@
-export interface IBasket {
+export interface ICart {
   id: string;
   name: string;
   price: number;
