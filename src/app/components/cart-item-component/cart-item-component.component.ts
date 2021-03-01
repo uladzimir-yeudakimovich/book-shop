@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { ICart } from '../../models/CartModel';
 
@@ -6,7 +6,6 @@ import { ICart } from '../../models/CartModel';
   selector: 'app-cart-item-component',
   templateUrl: './cart-item-component.component.html',
   styleUrls: ['./cart-item-component.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartItemComponentComponent {
   @Input() books: ICart[] = [];
