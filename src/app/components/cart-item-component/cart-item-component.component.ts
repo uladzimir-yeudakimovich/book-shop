@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
-import { IBasket } from '../../models/BasketModel';
+import { ICart } from '../../models/CartModel';
 
 @Component({
   selector: 'app-cart-item-component',
@@ -9,7 +9,7 @@ import { IBasket } from '../../models/BasketModel';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartItemComponentComponent {
-  @Input() books: IBasket[] = [];
+  @Input() books: ICart[] = [];
 
   @Output() delete = new EventEmitter<string>();
 
@@ -17,7 +17,7 @@ export class CartItemComponentComponent {
 
   @Output() decrease = new EventEmitter<string>();
 
-  checkCount(index: number, book: IBasket) {
+  checkCount(index: number, book: ICart) {
     return book.count;
   }
 }
