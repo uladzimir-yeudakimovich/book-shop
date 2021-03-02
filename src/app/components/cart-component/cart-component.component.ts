@@ -15,56 +15,37 @@ export class CartComponentComponent implements OnInit, OnDestroy {
 
   private dataSubscription: Subscription = new Subscription();
 
-  private updateDataSubscription: Subscription = new Subscription();
-
   constructor(private cartService: CartService) {}
 
   ngOnInit(): void {
-    this.dataSubscription = this.cartService.getCart().subscribe((res: any): void => {
-      if (res) this.books = res;
+    this.cartService.getCart().subscribe((res: any): void => {
+      if (res) {
+        this.books = res;
+        this.cartService.books = res;
+      }
+    });
+    this.dataSubscription = this.cartService.CartProduct.subscribe((books: ICart[]) => {
+      this.books = books;
     });
   }
 
   ngOnDestroy(): void {
     this.dataSubscription.unsubscribe();
-    this.updateDataSubscription.unsubscribe();
   }
 
   addBook(book: IBook): void {
-    const { id, name, price } = book;
-    const isInCart = this.books.find((el: ICart) => el.id === id);
-    if (isInCart) {
-      this.increaseBook(id);
-    } else {
-      this.books.push({ id, name, price, count: 1 });
-      this.updateDataSubscription = this.cartService.setCart(this.books).subscribe();
-    }
+    this.cartService.addBook(book);
   }
 
   deleteBook(id: string): void {
-    this.books = this.books.filter((el: ICart) => el.id !== id);
-    this.updateDataSubscription = this.cartService.setCart(this.books).subscribe();
+    this.cartService.removeBook(id);
   }
 
   increaseBook(id: string): void {
-    const book = this.books.find((el: ICart) => el.id === id);
-    if (book) {
-      const count = book.count + 1;
-      this.books = this.books.map((el: ICart) => (el.id === id ? { ...el, count } : el));
-      this.updateDataSubscription = this.cartService.setCart(this.books).subscribe();
-    }
+    this.cartService.increaseQuantity(id);
   }
 
   decreaseBook(id: string): void {
-    const book = this.books.find((el: ICart) => el.id === id);
-    if (book) {
-      if (book.count > 1) {
-        const count = book.count - 1;
-        this.books = this.books.map((el: ICart) => (el.id === id ? { ...el, count } : el));
-        this.updateDataSubscription = this.cartService.setCart(this.books).subscribe();
-      } else {
-        this.deleteBook(id);
-      }
-    }
+    this.cartService.decreaseQuantity(id);
   }
 }
