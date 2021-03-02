@@ -21,18 +21,26 @@ export class CartService {
 
   constructor(private http: HttpClient) {}
 
-  getCart() {
-    return this.http.get(
-      'https://book-shop-41c29-default-rtdb.europe-west1.firebasedatabase.app/basket.json',
-    );
+  getCart(): void {
+    this.http
+      .get('https://book-shop-41c29-default-rtdb.europe-west1.firebasedatabase.app/basket.json')
+      .toPromise()
+      .then((books: any): void => {
+        if (books) {
+          this.books = books;
+          this.CartProduct.next(this.books);
+        }
+      });
   }
 
-  setCart(books: ICart[]) {
-    return this.http.put(
-      'https://book-shop-41c29-default-rtdb.europe-west1.firebasedatabase.app/basket.json',
-      books,
-      { headers: this.headers },
-    );
+  setCart(): void {
+    this.http
+      .put(
+        'https://book-shop-41c29-default-rtdb.europe-west1.firebasedatabase.app/basket.json',
+        this.books,
+        { headers: this.headers },
+      )
+      .subscribe();
   }
 
   addBook(book: IBook): void {
@@ -43,14 +51,14 @@ export class CartService {
     } else {
       this.books.push({ id, name, price, count: 1 });
       this.CartProduct.next(this.books);
-      this.setCart(this.books);
+      this.setCart();
     }
   }
 
   removeBook(id: string): void {
     this.books = this.books.filter((el: ICart) => el.id !== id);
     this.CartProduct.next(this.books);
-    this.setCart(this.books);
+    this.setCart();
   }
 
   increaseQuantity(id: string): void {
@@ -59,7 +67,7 @@ export class CartService {
       const count = book.count + 1;
       this.books = this.changeCartProduct(id, count);
       this.CartProduct.next(this.books);
-      this.setCart(this.books);
+      this.setCart();
     }
   }
 
@@ -70,7 +78,7 @@ export class CartService {
         const count = book.count - 1;
         this.books = this.changeCartProduct(id, count);
         this.CartProduct.next(this.books);
-        this.setCart(this.books);
+        this.setCart();
       } else {
         this.removeBook(id);
       }

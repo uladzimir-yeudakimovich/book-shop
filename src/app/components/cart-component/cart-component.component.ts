@@ -13,24 +13,19 @@ import { IBook } from '../../models/BookModel';
 export class CartComponentComponent implements OnInit, OnDestroy {
   books: ICart[] = [];
 
-  private dataSubscription: Subscription = new Subscription();
+  private booksSubscription: Subscription = new Subscription();
 
   constructor(private cartService: CartService) {}
 
   ngOnInit(): void {
-    this.cartService.getCart().subscribe((res: any): void => {
-      if (res) {
-        this.books = res;
-        this.cartService.books = res;
-      }
-    });
-    this.dataSubscription = this.cartService.CartProduct.subscribe((books: ICart[]) => {
+    this.cartService.getCart();
+    this.booksSubscription = this.cartService.CartProduct.subscribe((books: ICart[]) => {
       this.books = books;
     });
   }
 
   ngOnDestroy(): void {
-    this.dataSubscription.unsubscribe();
+    this.booksSubscription.unsubscribe();
   }
 
   addBook(book: IBook): void {
