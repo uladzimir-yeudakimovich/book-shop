@@ -15,9 +15,9 @@ export class CartService {
 
   CartProduct = new Subject<ICart[]>();
 
-  // private totalQuantity: number = 0;
+  totalQuantity = 0;
 
-  // private totalSum: number = 0;
+  totalSum = 0;
 
   constructor(private http: HttpClient) {}
 
@@ -29,6 +29,10 @@ export class CartService {
         if (books) {
           this.books = books;
           this.CartProduct.next(this.books);
+          this.totalQuantity = this.books.length;
+          this.books.forEach((el) => {
+            this.totalSum += el.price * el.count;
+          });
         }
       });
   }
@@ -50,14 +54,20 @@ export class CartService {
       this.increaseQuantity(id);
     } else {
       this.books.push({ id, name, price, count: 1 });
+      this.totalSum += price;
+      this.totalQuantity += 1;
       this.CartProduct.next(this.books);
       this.setCart();
     }
   }
 
   removeBook(id: string): void {
-    this.books = this.books.filter((el: ICart) => el.id !== id);
+    this.books = this.books.filter((el: ICart) => {
+      if (el.id === id) this.totalSum -= el.price * el.count;
+      return el.id !== id;
+    });
     this.CartProduct.next(this.books);
+    this.totalQuantity -= 1;
     this.setCart();
   }
 
@@ -65,6 +75,7 @@ export class CartService {
     const book = this.books.find((el: ICart) => el.id === id);
     if (book) {
       const count = book.count + 1;
+      this.totalSum += book.price;
       this.books = this.changeCartProduct(id, count);
       this.CartProduct.next(this.books);
       this.setCart();
@@ -76,6 +87,7 @@ export class CartService {
     if (book) {
       if (book.count > 1) {
         const count = book.count - 1;
+        this.totalSum -= book.price;
         this.books = this.changeCartProduct(id, count);
         this.CartProduct.next(this.books);
         this.setCart();
@@ -93,6 +105,8 @@ export class CartService {
 
   removeAllBooks() {
     this.books.length = 0;
+    this.totalQuantity = 0;
+    this.totalSum = 0;
     this.CartProduct.next(this.books);
   }
 
